@@ -42,6 +42,11 @@ Once all tests have been run, the error count should be checked. The number of
 failed assertions is given by ERROR_COUNT. This should be 0, if not an error 
 has been introduced.
 
+### Note
+The timings displayed are a rough indication intended to indicate whether
+performance has been adversely affected. **Performance tools should be used if 
+precise timing is required.**
+
 ## Cloning and Running
 
 To clone, build and run this code, execute the following unix/linux commands:
