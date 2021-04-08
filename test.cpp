@@ -18,7 +18,7 @@
  *
  * @section DESCRIPTION
  *
- * Unit test code for the Statistics Implementation.
+ * Unit test code Implementation.
  *
  * Build using:
  *    g++ -std=c++20 -c -o test.o test.cpp
@@ -28,6 +28,7 @@
  * Test using:
  *    ./test
  *
+ *  Should generate 1 error.
  */
 
 #include <iostream>
