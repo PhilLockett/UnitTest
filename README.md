@@ -5,7 +5,7 @@ A simple unit test 'framework' implemented as a singleton.
 ## Overview
 
 A unit test framework is useful for regression testing, providing a level of
-confidence in code proportional to the coverage of code.
+confidence in code proportional to the test coverage of code.
 
 ### Test progress display
 The macros VERBOSE_ON and VERBOSE_OFF control whether output is displayed as
@@ -29,13 +29,13 @@ should not be called.
 The macro REQUIRE(cond) is the whole point of this. The parameter 'cond' is
 a compilable condition that must be met by the test. Within each unit test
 case, code under test should be executed then all appropriate conditions 
-should be tested for. If the codition does not return true, an error message
+should be tested for. If the condition does not return true, an error message
 will be displayed and the error count will be incremented.
 
-###
-To run the tests use the RUN_TEST(func) macro on all 'func's defined by the
-UNIT_TEST macro only. Do not try to run the 'func's defined by the NEXT_CASE
-macros as this will cause a compile error.
+### Running test cases
+To run the test cases use the RUN_TEST(func) macro on all 'func's defined by
+the UNIT_TEST macro only. Do not try to run the 'func's defined by the 
+NEXT_CASE macros as this will cause a compile error.
 
 ### Error count
 Once all tests have been run, the error count should be checked. The number of
@@ -51,9 +51,10 @@ To clone, build and run this code, execute the following unix/linux commands:
     make
     ./test
 
-This should (intentionally) create 1 error, since it test that error conditions
-are caught. The files inittest.cpp and inittest.h can then be used along with
-unit test code.
+This should (intentionally) create 1 error, since this code tests that error 
+conditions are caught. However, typically, all test should pass. 
+
+The files inittest.cpp and inittest.h can be used along with unit test code.
 
 ## Points of interest
 
