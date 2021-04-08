@@ -18,7 +18,7 @@
  *
  * @section DESCRIPTION
  *
- * Unit test code Implementation.
+ * Test the unit test code Implementation.
  *
  * Build using:
  *    g++ -std=c++20 -c -o test.o test.cpp
@@ -103,6 +103,6 @@ int runTests(void)
  */
 int main(int argc, char *argv[])
 {
-    return runTests();
+    return (runTests()==1 ? 0 : 1);
 }
 

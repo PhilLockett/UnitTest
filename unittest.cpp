@@ -18,7 +18,7 @@
  *
  * @section DESCRIPTION
  *
- * Statistics Implementation.
+ * Simple unit test "framework" Implementation.
  */
 
 #include <iostream>
