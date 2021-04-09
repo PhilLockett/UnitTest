@@ -38,14 +38,22 @@ the UNIT_TEST macro only. Do not try to run the 'func's defined by the
 NEXT_CASE macros as this will cause a compile error.
 
 ### Error count
-Once all tests have been run, the error count should be checked. The number of
-failed assertions is given by ERROR_COUNT. This should be 0, if not an error 
-has been introduced.
+The current error count can be obtained with the ERROR_COUNT macro.
+
+### Test completion
+Once all tests have been run the FINISHED macro should be called, which also
+returns the error count. The error count is the number of failed assertions 
+which should be 0, if not an error has been introduced.
 
 ### Note
 The timings displayed are a rough indication intended to indicate whether
-performance has been adversely affected. **Performance tools should be used if 
-precise timing is required.**
+performance has been adversely affected. The code uses the file "timings.txt"
+to track previous test case timings. If the duration of a test case has
+increased by more than 10% a message is displayed but it is not counted as an
+error. Deleting "timings.txt" will cause it to be regenerated when the tests
+are next run.
+
+**Performance tools should be used if precise timing is required.**
 
 ## Cloning and Running
 

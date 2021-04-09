@@ -72,6 +72,7 @@ UNIT_TEST(test3, "Test REQUIRE macro - first test should pass, second test shoul
 
     // Test "fail" case.
     REQUIRE(getSomeValue() == 11)
+    REQUIRE(ERROR_COUNT == 1)
 
 END_TEST
 
@@ -83,7 +84,7 @@ int runTests(void)
     RUN_TEST(test0)
     RUN_TEST(test3)
 
-    const int err = ERROR_COUNT;
+    const int err = FINISHED;
     if (err)
         std::cerr << err << " ERROR(S) encountered!.\n";
     else

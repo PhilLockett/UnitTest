@@ -71,6 +71,7 @@ To clone this code, execute the following unix/linux commands:
 
 #include <string>
 #include <chrono>
+#include <unordered_map>
 
 /**
  * @section unit test macro definitions.
@@ -99,6 +100,8 @@ To clone this code, execute the following unix/linux commands:
 
 #define ERROR_COUNT UnitTest_c::getInstance().getErrorCount()
 
+#define FINISHED UnitTest_c::getInstance().finished()
+
 /**
  * @section unit test context data.
  *
@@ -109,11 +112,12 @@ class UnitTest_c
 {
 private:
 //- Hide the default constructor and destructor.
-    UnitTest_c(void) {}
+    UnitTest_c(void) { retrieve(); }
     virtual ~UnitTest_c(void) {}
 
     void display(std::ostream &os) const;
 
+    static std::string fileName;
     static std::string testCase;
     static std::string description;
     static std::string condition;
@@ -123,6 +127,12 @@ private:
     static std::chrono::time_point<std::chrono::steady_clock> start;
     static std::chrono::duration<float> elapsed_seconds;
 
+    static std::unordered_map<std::string, float> times;
+
+    static bool store(void);
+    static bool retrieve(void);
+    static float getTime(const std::string & key);
+    static bool setTime(const std::string & key, float value);
 
 public:
 //- Delete the copy constructor and assignement operator.
@@ -139,6 +149,8 @@ public:
     static void complete(void);
     static void failure(const std::string & cond);
     static int getErrorCount(void) { return errors; }
+    static int finished(void) { store(); return errors; }
+
 
 };
 
