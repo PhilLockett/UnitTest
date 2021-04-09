@@ -32,6 +32,7 @@ std::string UnitTest_c::description = "UNDEFINED";
 std::string UnitTest_c::condition = "UNDEFINED";
 bool UnitTest_c::verbose = true;
 int UnitTest_c::errors = 0;
+float UnitTest_c::tolerance = 0.25f;
 
 std::chrono::time_point<std::chrono::steady_clock> UnitTest_c::start;
 std::chrono::duration<float> UnitTest_c::elapsed_seconds;
@@ -127,11 +128,11 @@ void UnitTest_c::complete(void)
         float prev = getTime(testCase);
         float delta = seconds - prev;
         float change = delta / prev;
-        if ((delta > 0) && change > 0.1)
+        if ((delta > 0) && (change > tolerance))
         {
             std::cerr << '\n';
             std::cerr << "After running " << testCase << " (" << description << "):\n";
-            std::cerr << "\ttest took too long (previous: " << prev << "s, current: " << seconds << "s)\n";
+            std::cerr << "\ttest was too slow (previous: " << prev << "s, current: " << seconds << "s)\n";
             std::cerr << '\n';
         }
         if (verbose)

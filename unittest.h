@@ -83,6 +83,8 @@ To clone this code, execute the following unix/linux commands:
 #define VERBOSE_OFF UnitTest_c::getInstance().setVerbose(false);
 #define IS_VERBOSE (UnitTest_c::getInstance().isVerbose())
 
+#define SET_TOLERANCE(value) UnitTest_c::getInstance().setTolerance(value);
+
 #define UNIT_TEST(func, desc) void func(void) {\
     UnitTest_c::getInstance().progress(#func, desc);
 
@@ -123,6 +125,7 @@ private:
     static std::string condition;
     static bool verbose;
     static int errors;
+    static float tolerance;
 
     static std::chrono::time_point<std::chrono::steady_clock> start;
     static std::chrono::duration<float> elapsed_seconds;
@@ -145,6 +148,7 @@ public:
 
     static void setVerbose(bool state = true) { verbose = state; }
     static bool isVerbose(void) { return verbose; }
+    static void setTolerance(float value) { tolerance = value; }
     static void progress(const std::string & test, const std::string & desc);
     static void complete(void);
     static void failure(const std::string & cond);

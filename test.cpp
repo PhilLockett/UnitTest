@@ -59,23 +59,28 @@ NEXT_CASE(test2, "Test verbose output again.")
 END_TEST
 
 
-int getSomeValue(void)
-{
-    return 10;
-}
 /**
  * @section single test case.
  */
+static const int SOMEVALUE = 10;
+int getSomeValue(void) { return SOMEVALUE; }
+
 UNIT_TEST(test3, "Test REQUIRE macro - first test should pass, second test should fail.")
     // Test "pass" case.
-    REQUIRE(getSomeValue() == 10)
+    REQUIRE(getSomeValue() == SOMEVALUE)
 
     // Test "fail" case.
-    REQUIRE(getSomeValue() == 11)
+    REQUIRE(getSomeValue() == SOMEVALUE+1)
     REQUIRE(ERROR_COUNT == 1)
 
 END_TEST
 
+UNIT_TEST(test4, "Test setting tolerance - may generate a 'too slow' message.")
+
+    SET_TOLERANCE(0.01)
+    REQUIRE(getSomeValue() == SOMEVALUE)
+
+END_TEST
 
 int runTests(void)
 {
@@ -83,6 +88,7 @@ int runTests(void)
 
     RUN_TEST(test0)
     RUN_TEST(test3)
+    RUN_TEST(test4)
 
     const int err = FINISHED;
     if (err)
