@@ -1,9 +1,7 @@
 # UnitTest_c
-
 A simple unit test 'framework' implemented as a singleton.
 
 ## Overview
-
 A unit test framework is useful for regression testing, providing a level of
 confidence in code proportional to the test coverage of code.
 
@@ -53,14 +51,14 @@ increased by more than 25% a message is displayed but it is not counted as an
 error. Deleting "timings.txt" will cause this file to be regenerated when the
 tests are next run.
 
-The 25% tolerance can be adjusted by calling the SET_TOLERANCE(value) macro.
-The 'value' parameter is specified as a decimal, so for example an acceptable
-deviation of 25% would be set by calling SET_TOLERANCE(0.25).
+The default 25% tolerance can be adjusted by calling the SET_TOLERANCE(value)
+macro. The 'value' parameter is specified as a decimal, so for example an
+acceptable deviation of 25% would be set by calling SET_TOLERANCE(0.25).
+Time checking can be disbled by setting the tolerance to 0.0.
 
 **Performance tools should be used if precise timing is required.**
 
 ## Cloning and Running
-
 To clone, build and run this code, execute the following unix/linux commands:
 
     git clone https://github.com/PhilLockett/UnitTest.git
@@ -74,7 +72,6 @@ conditions are caught. However, typically, all test should pass.
 The files inittest.cpp and inittest.h can be used along with unit test code.
 
 ## Points of interest
-
 This code has the following points of interest:
 
   * The unit test code is implemented as a singleton.

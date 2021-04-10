@@ -121,6 +121,9 @@ bool UnitTest_c::setTime(const std::string & key, float value)
 }
 void UnitTest_c::complete(void)
 {
+    if (tolerance <= 0.0f)
+        return;
+
     elapsed_seconds = std::chrono::steady_clock::now() - start;
     float seconds = elapsed_seconds.count();
     if (setTime(testCase, seconds))

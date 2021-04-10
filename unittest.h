@@ -56,9 +56,25 @@ the UNIT_TEST macro only. Do not try to run the 'func's defined by the
 NEXT_CASE macros as this will cause a compile error.
 
 Error count
-Once all tests have been run, the error count should be checked. The number of
-failed assertions is given by ERROR_COUNT. This should be 0, if not an error 
-has been introduced.
+The current error count can be obtained with the ERROR_COUNT macro.
+
+Test completion
+Once all tests have been run the FINISHED macro should be called, which also
+returns the error count. The error count is the number of failed assertions 
+which should be 0, if not an error has been introduced.
+
+Note
+The timings displayed are a rough indication intended to indicate whether
+performance has been adversely affected. The code uses the file "timings.txt"
+to track previous test case timings. If the duration of a test case has
+increased by more than 25% a message is displayed but it is not counted as an
+error. Deleting "timings.txt" will cause this file to be regenerated when the
+tests are next run.
+
+The default 25% tolerance can be adjusted by calling the SET_TOLERANCE(value)
+macro. The 'value' parameter is specified as a decimal, so for example an
+acceptable deviation of 25% would be set by calling SET_TOLERANCE(0.25).
+Time checking can be disbled by setting the tolerance to 0.0.
 
 Cloning
 To clone this code, execute the following unix/linux commands:

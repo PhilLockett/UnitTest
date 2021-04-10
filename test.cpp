@@ -46,12 +46,12 @@ UNIT_TEST(test0, "Test verbose output.")
     VERBOSE_ON
     REQUIRE(IS_VERBOSE)
 
-NEXT_CASE(test1, "Test verbose output disabled.")
+NEXT_CASE(test1, "Test disabling verbose output.")
 
     VERBOSE_OFF
     REQUIRE(!IS_VERBOSE)
 
-NEXT_CASE(test2, "Test verbose output again.")
+NEXT_CASE(test2, "Test enabling verbose output again.")
 
     VERBOSE_ON
     REQUIRE(IS_VERBOSE)
@@ -65,19 +65,35 @@ END_TEST
 static const int SOMEVALUE = 10;
 int getSomeValue(void) { return SOMEVALUE; }
 
-UNIT_TEST(test3, "Test REQUIRE macro - first test should pass, second test should fail.")
+UNIT_TEST(test3, "Test REQUIRE macro - test should pass.")
     // Test "pass" case.
     REQUIRE(getSomeValue() == SOMEVALUE)
+    REQUIRE(ERROR_COUNT == 0)
 
+NEXT_CASE(test4, "Test REQUIRE macro - test should fail.")
     // Test "fail" case.
     REQUIRE(getSomeValue() == SOMEVALUE+1)
     REQUIRE(ERROR_COUNT == 1)
 
 END_TEST
 
-UNIT_TEST(test4, "Test setting tolerance - may generate a 'too slow' message.")
+UNIT_TEST(test5, "Test setting tolerance low - may generate a 'too slow' message.")
 
     SET_TOLERANCE(0.01)
+    REQUIRE(getSomeValue() == SOMEVALUE)
+
+END_TEST
+
+UNIT_TEST(test6, "Test disabling timing by setting tolerance to zero.")
+
+    SET_TOLERANCE(0.0)
+    REQUIRE(getSomeValue() == SOMEVALUE)
+
+END_TEST
+
+UNIT_TEST(test7, "Test enabling timing by setting tolerance back to non-zero.")
+
+    SET_TOLERANCE(0.25)
     REQUIRE(getSomeValue() == SOMEVALUE)
 
 END_TEST
@@ -88,7 +104,9 @@ int runTests(void)
 
     RUN_TEST(test0)
     RUN_TEST(test3)
-    RUN_TEST(test4)
+    RUN_TEST(test5)
+    RUN_TEST(test6)
+    RUN_TEST(test7)
 
     const int err = FINISHED;
     if (err)
@@ -96,7 +114,7 @@ int runTests(void)
     else
         std::cout << "All tests passed.\n";
 
-    std::cout << "Note: we force an error to tet the fail case, so error count should be 1.\n";
+    std::cout << "Note: we force an error to get the fail case, so error count should be 1.\n";
 
     return err;
 }
