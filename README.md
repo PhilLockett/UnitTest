@@ -44,19 +44,24 @@ returns the error count. The error count is the number of failed assertions
 which should be 0, if not an error has been introduced.
 
 ### Note
-The timings displayed are a rough indication intended to indicate whether
-performance has been adversely affected. The code uses the file "timings.txt"
-to track previous test case timings. If the duration of a test case has
-increased by more than 25% a message is displayed but it is not counted as an
+The timings displayed are a rough indication to whether performance has been
+adversely affected by a code change. The code uses the file "timings.txt" to
+track previous test case timings. If the duration of a test case has increased
+by more than 25% (default) a message is displayed, but it is not counted as an
 error. Deleting "timings.txt" will cause this file to be regenerated when the
 tests are next run.
 
 The default 25% tolerance can be adjusted by calling the SET_TOLERANCE(value)
-macro. The 'value' parameter is specified as a decimal, so for example an
+macro. The 'value' parameter is specified as a decimal, so for example, an
 acceptable deviation of 25% would be set by calling SET_TOLERANCE(0.25).
-Time checking can be disbled by setting the tolerance to 0.0.
 
-**Performance tools should be used if precise timing is required.**
+Time checking can be disabled by setting the tolerance to 0.0.
+
+Also note that any change to the test names, i.e. the value of 'func' used in
+the call to UNIT_TEST, "timings.txt" will need to be deleted so that the
+timings for the new 'func' names can be calculated.
+
+**If precise timing is required, performance tools should be used.**
 
 ## Cloning and Running
 To clone, build and run this code, execute the following unix/linux commands:
