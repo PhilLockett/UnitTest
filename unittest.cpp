@@ -140,10 +140,11 @@ void UnitTest_c::complete(void)
         }
         if (verbose)
         {
+            const int percent = (int)(change * 100);
             if (delta > 0)
-                std::cout << testCase << " -> " << seconds << "s (slower than previous: " << prev << "s)" << std::endl;
+                std::cout << testCase << " -> " << seconds << "s (" << percent << "% slower than previous)" << std::endl;
             else
-                std::cout << testCase << " -> " << seconds << "s (faster than previous: " << prev << "s)" << std::endl;
+                std::cout << testCase << " -> " << seconds << "s (" << -percent << "% faster than previous)" << std::endl;
         }
     }
     else
