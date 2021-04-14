@@ -115,11 +115,11 @@ bool UnitTest_c::setTime(const std::string & key, std::chrono::nanoseconds value
     if (it == times.end())
     {
         times[key] = value;
-        return false;
+        return true;
     }
 
 //    it->second = value;
-    return true;
+    return false;
 }
 void UnitTest_c::complete(void)
 {
@@ -129,7 +129,7 @@ void UnitTest_c::complete(void)
     const auto stop = std::chrono::steady_clock::now();
     const auto elapsed{stop-start};
     const auto nseconds = elapsed.count();
-    if (setTime(testCase, elapsed))
+    if (!setTime(testCase, elapsed))
     {
         const auto prev = getTime(testCase);
         const auto delta{elapsed - prev};
