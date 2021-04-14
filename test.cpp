@@ -32,10 +32,8 @@
  */
 
 #include <iostream>
-#include <sstream>
 
 #include "unittest.h"
-
 
 
 /**
