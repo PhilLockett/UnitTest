@@ -121,7 +121,7 @@ int runTests(void)
     else
         std::cout << "All tests passed.\n";
 
-    std::cout << "Note: we force an error to get the fail case, so error count should be 1.\n";
+    std::cout << "\nNote: we force an error in Test4 to get the fail case, so error count should be 1.\n\n";
 
     return err;
 }
