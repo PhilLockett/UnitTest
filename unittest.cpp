@@ -31,7 +31,7 @@ std::string UnitTest_c::testCase = "UNDEFINED";
 std::string UnitTest_c::description = "UNDEFINED";
 std::string UnitTest_c::condition = "UNDEFINED";
 bool UnitTest_c::verbose = true;
-int UnitTest_c::errors = 0;
+size_t UnitTest_c::errors = 0;
 float UnitTest_c::tolerance = 0.25f;
 
 std::chrono::time_point<std::chrono::steady_clock> UnitTest_c::start;

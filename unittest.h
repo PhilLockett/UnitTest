@@ -147,7 +147,7 @@ private:
     static std::string description;
     static std::string condition;
     static bool verbose;
-    static int errors;
+    static size_t errors;
     static float tolerance;
 
     static std::chrono::time_point<std::chrono::steady_clock> start;
