@@ -98,6 +98,12 @@ UNIT_TEST(test7, "Test enabling timing by setting tolerance back to non-zero.")
 
 END_TEST
 
+UNIT_TEST(test8, "Test displaying test case state.")
+
+    std::cout << UnitTest_c::getInstance();
+
+END_TEST
+
 int runTests(void)
 {
     std::cout << "Executing all tests.\n";
@@ -107,6 +113,7 @@ int runTests(void)
     RUN_TEST(test5)
     RUN_TEST(test6)
     RUN_TEST(test7)
+    RUN_TEST(test8)
 
     const int err = FINISHED;
     if (err)

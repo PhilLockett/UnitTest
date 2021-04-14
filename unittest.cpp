@@ -45,9 +45,12 @@ std::unordered_map<std::string, std::chrono::nanoseconds> UnitTest_c::times;
  */
 void UnitTest_c::display(std::ostream &os) const
 {
-     os << "\tTest Case:\t" << testCase << "()\n";
-     os << "\tDescription:\t" << description << "()\n";
-     os << "\tVerbose:\t" << verbose << '\n';
+    os << "\tTest Case:\t" << testCase << "()\n";
+    os << "\tDescription:\t" << description << "\n";
+    os << "\tCondition:\t" << condition << "\n";
+    os << "\tVerbose:\t" << std::boolalpha << verbose << '\n';
+    os << "\tCurrent Errors:\t" << errors << '\n';
+    os << "\tTolerance:\t" << (int)(tolerance * 100)<< '\n';
 }
 
 void UnitTest_c::progress(const std::string & test, const std::string & desc)
