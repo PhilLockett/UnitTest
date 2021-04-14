@@ -131,15 +131,15 @@ void UnitTest_c::complete(void)
     const auto nseconds = elapsed.count();
     if (!setTime(testCase, elapsed))
     {
-        const auto prev = getTime(testCase);
-        const auto delta{elapsed - prev};
-        const auto change = (float)(delta.count()) / prev.count();
+        const auto previous = getTime(testCase);
+        const auto delta{elapsed - previous};
+        const auto change = (float)(delta.count()) / previous.count();
         const auto slower = (delta > std::chrono::nanoseconds{0});
         if ((slower) && (change > tolerance))
         {
             std::cerr << '\n';
             std::cerr << "After running " << testCase << " (" << description << "):\n";
-            std::cerr << "\ttest was too slow (previous: " << prev.count() << "ns, current: " << nseconds << "ns)\n";
+            std::cerr << "\ttest was too slow (previous: " << previous.count() << "ns, current: " << nseconds << "ns)\n";
             std::cerr << '\n';
         }
         if (verbose)
