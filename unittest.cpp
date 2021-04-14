@@ -35,9 +35,8 @@ int UnitTest_c::errors = 0;
 float UnitTest_c::tolerance = 0.25f;
 
 std::chrono::time_point<std::chrono::steady_clock> UnitTest_c::start;
-std::chrono::duration<float> UnitTest_c::elapsed_seconds;
 
-std::unordered_map<std::string, float> UnitTest_c::times;
+std::unordered_map<std::string, std::chrono::nanoseconds> UnitTest_c::times;
 
 /**
  * Send the current name-value pairs to the output stream.
@@ -71,7 +70,7 @@ bool UnitTest_c::store(void)
 
     for (auto & it : times)
     {
-        outfile << it.second << ' ' << it.first << '\n';
+        outfile << it.second.count() << ' ' << it.first << '\n';
     }
     outfile.close();
 
@@ -84,30 +83,30 @@ bool UnitTest_c::retrieve(void)
     if (!infile.is_open())
         return false;
 
-    float time;
+    int64_t time;
     std::string func;
 
     while (infile >> time >> func)
     {
         if (!infile.eof() && func.length())
-            setTime(func, time);
+            setTime(func, std::chrono::nanoseconds{time});
     }
 
     infile.close();
 
     return true;
 }
-float UnitTest_c::getTime(const std::string & key)
+std::chrono::nanoseconds UnitTest_c::getTime(const std::string & key)
 {
     auto it = times.find(key);
     if (it == times.end())
     {
-        return 0.0f;
+        return std::chrono::nanoseconds{0};
     }
 
     return it->second;
 }
-bool UnitTest_c::setTime(const std::string & key, float value)
+bool UnitTest_c::setTime(const std::string & key, std::chrono::nanoseconds value)
 {
     auto it = times.find(key);
     if (it == times.end())
@@ -124,33 +123,35 @@ void UnitTest_c::complete(void)
     if (tolerance <= 0.0f)
         return;
 
-    elapsed_seconds = std::chrono::steady_clock::now() - start;
-    float seconds = elapsed_seconds.count();
-    if (setTime(testCase, seconds))
+    const auto stop = std::chrono::steady_clock::now();
+    const std::chrono::nanoseconds elapsed{stop-start};
+    const int nseconds = elapsed.count();
+    if (setTime(testCase, elapsed))
     {
-        float prev = getTime(testCase);
-        float delta = seconds - prev;
-        float change = delta / prev;
-        if ((delta > 0) && (change > tolerance))
+        const std::chrono::nanoseconds prev = getTime(testCase);
+        const std::chrono::nanoseconds delta{elapsed - prev};
+        const float change = (float)(delta.count()) / prev.count();
+        const bool slower = (delta > std::chrono::nanoseconds{0});
+        if ((slower) && (change > tolerance))
         {
             std::cerr << '\n';
             std::cerr << "After running " << testCase << " (" << description << "):\n";
-            std::cerr << "\ttest was too slow (previous: " << prev << "s, current: " << seconds << "s)\n";
+            std::cerr << "\ttest was too slow (previous: " << prev.count() << "ns, current: " << nseconds << "ns)\n";
             std::cerr << '\n';
         }
         if (verbose)
         {
             const int percent = (int)(change * 100);
-            if (delta > 0)
-                std::cout << testCase << " -> " << seconds << "s (" << percent << "% slower than previous)" << std::endl;
+            if (slower)
+                std::cout << testCase << " -> " << nseconds << "ns (" << percent << "% slower than previous)" << std::endl;
             else
-                std::cout << testCase << " -> " << seconds << "s (" << -percent << "% faster than previous)" << std::endl;
+                std::cout << testCase << " -> " << nseconds << "ns (" << -percent << "% faster than previous)" << std::endl;
         }
     }
     else
     if (verbose)
     {
-        std::cout << testCase << " -> " << seconds << 's' << std::endl;
+        std::cout << testCase << " -> " << nseconds << "ns" << std::endl;
     }
 }
 void UnitTest_c::failure(const std::string & cond)

@@ -151,14 +151,13 @@ private:
     static float tolerance;
 
     static std::chrono::time_point<std::chrono::steady_clock> start;
-    static std::chrono::duration<float> elapsed_seconds;
 
-    static std::unordered_map<std::string, float> times;
+    static std::unordered_map<std::string, std::chrono::nanoseconds> times;
 
     static bool store(void);
     static bool retrieve(void);
-    static float getTime(const std::string & key);
-    static bool setTime(const std::string & key, float value);
+    static std::chrono::nanoseconds getTime(const std::string & key);
+    static bool setTime(const std::string & key, std::chrono::nanoseconds value);
 
 public:
 //- Delete the copy constructor and assignement operator.
