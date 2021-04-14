@@ -124,14 +124,14 @@ void UnitTest_c::complete(void)
         return;
 
     const auto stop = std::chrono::steady_clock::now();
-    const std::chrono::nanoseconds elapsed{stop-start};
-    const int nseconds = elapsed.count();
+    const auto elapsed{stop-start};
+    const auto nseconds = elapsed.count();
     if (setTime(testCase, elapsed))
     {
-        const std::chrono::nanoseconds prev = getTime(testCase);
-        const std::chrono::nanoseconds delta{elapsed - prev};
-        const float change = (float)(delta.count()) / prev.count();
-        const bool slower = (delta > std::chrono::nanoseconds{0});
+        const auto prev = getTime(testCase);
+        const auto delta{elapsed - prev};
+        const auto change = (float)(delta.count()) / prev.count();
+        const auto slower = (delta > std::chrono::nanoseconds{0});
         if ((slower) && (change > tolerance))
         {
             std::cerr << '\n';
@@ -141,7 +141,7 @@ void UnitTest_c::complete(void)
         }
         if (verbose)
         {
-            const int percent = (int)(change * 100);
+            const auto percent = (int)(change * 100);
             if (slower)
                 std::cout << testCase << " -> " << nseconds << "ns (" << percent << "% slower than previous)" << std::endl;
             else
