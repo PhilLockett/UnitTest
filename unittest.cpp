@@ -60,7 +60,7 @@ void UnitTest_c::progress(const std::string & test, const std::string & desc)
 
     if (verbose)
     {
-        std::cout << testCase << " - " << description << std::endl;
+        std::cout << testCase << " - " << description << '\n';
     }
     start = std::chrono::steady_clock::now();
 }
@@ -146,15 +146,15 @@ void UnitTest_c::complete(void)
         {
             const auto percent = (int)(change * 100);
             if (slower)
-                std::cout << testCase << " -> " << nseconds << "ns (" << percent << "% slower than previous)" << std::endl;
+                std::cout << testCase << " -> " << nseconds << "ns (" << percent << "% slower than previous)\n";
             else
-                std::cout << testCase << " -> " << nseconds << "ns (" << -percent << "% faster than previous)" << std::endl;
+                std::cout << testCase << " -> " << nseconds << "ns (" << -percent << "% faster than previous)\n";
         }
     }
     else
     if (verbose)
     {
-        std::cout << testCase << " -> " << nseconds << "ns" << std::endl;
+        std::cout << testCase << " -> " << nseconds << "ns\n";
     }
 }
 void UnitTest_c::failure(const std::string & cond, const char *file, int line)
