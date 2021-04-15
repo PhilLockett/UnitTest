@@ -18,16 +18,19 @@
  *
  * @section DESCRIPTION
  *
- * Simple unit test "framework".
+ * A simple, lightweight unit test 'framework' implemented as a singleton.
  */
 /*
 Overview
 A unit test framework is useful for regression testing, providing a level of
-confidence in code proportional to the test coverage of code.
+confidence in code proportional to the test coverage of code. This lightweight
+implementation is intended for easy use with test code for quick confirmation
+that bugs have not been introduced.
 
 Test progress display
 The macros VERBOSE_ON and VERBOSE_OFF control whether output is displayed as
-the tests are preformed, the state of which can be tested using IS_VERBOSE.
+the tests are performed. The verbose state can be tested using the macro
+IS_VERBOSE which returns a boolean.
 
 Defining test cases
 A test case is defined between the macro UNIT_TEST(func, desc) and END_TEST.
