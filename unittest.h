@@ -146,6 +146,7 @@ private:
     static std::string testCase;
     static std::string description;
     static std::string condition;
+    static bool update;
     static bool verbose;
     static size_t errors;
     static float tolerance;
@@ -175,7 +176,7 @@ public:
     static void complete(void);
     static void failure(const std::string & cond, const char *file, int line);
     static int getErrorCount(void) { return errors; }
-    static int finished(void) { store(); return errors; }
+    static int finished(void) { if (update) store(); return errors; }
 
 
 };

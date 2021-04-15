@@ -30,6 +30,7 @@ std::string UnitTest_c::fileName = "timings.txt";
 std::string UnitTest_c::testCase = "UNDEFINED";
 std::string UnitTest_c::description = "UNDEFINED";
 std::string UnitTest_c::condition = "UNDEFINED";
+bool UnitTest_c::update = false;
 bool UnitTest_c::verbose = true;
 size_t UnitTest_c::errors = 0;
 float UnitTest_c::tolerance = 0.25f;
@@ -129,7 +130,15 @@ void UnitTest_c::complete(void)
     const auto stop = std::chrono::steady_clock::now();
     const auto elapsed{stop-start};
     const auto nseconds = elapsed.count();
-    if (!setTime(testCase, elapsed))
+    if (setTime(testCase, elapsed))
+    {
+        update = true;
+        if (verbose)
+        {
+            std::cout << testCase << " -> " << nseconds << "ns\n";
+        }
+    }
+    else
     {
         const auto previous = getTime(testCase);
         const auto delta{elapsed - previous};
@@ -150,11 +159,6 @@ void UnitTest_c::complete(void)
             else
                 std::cout << testCase << " -> " << nseconds << "ns (" << -percent << "% faster than previous)\n";
         }
-    }
-    else
-    if (verbose)
-    {
-        std::cout << testCase << " -> " << nseconds << "ns\n";
     }
 }
 void UnitTest_c::failure(const std::string & cond, const char *file, int line)
