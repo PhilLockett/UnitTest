@@ -119,7 +119,7 @@ To clone this code, execute the following unix/linux commands:
     UnitTest_c::getInstance().complete();\
 }
 
-#define REQUIRE(cond) if (!(cond)) UnitTest_c::getInstance().failure(#cond);
+#define REQUIRE(cond) if (!(cond)) UnitTest_c::getInstance().failure(#cond, __FILE__, __LINE__);
 
 #define RUN_TEST(func)    func();
 
@@ -173,7 +173,7 @@ public:
     static void setTolerance(float value) { tolerance = value; }
     static void progress(const std::string & test, const std::string & desc);
     static void complete(void);
-    static void failure(const std::string & cond);
+    static void failure(const std::string & cond, const char *file, int line);
     static int getErrorCount(void) { return errors; }
     static int finished(void) { store(); return errors; }
 

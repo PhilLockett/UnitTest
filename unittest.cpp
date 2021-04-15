@@ -138,8 +138,8 @@ void UnitTest_c::complete(void)
         if ((slower) && (change > tolerance))
         {
             std::cerr << '\n';
-            std::cerr << "After running " << testCase << " (" << description << "):\n";
-            std::cerr << "\ttest was too slow (previous: " << previous.count() << "ns, current: " << nseconds << "ns)\n";
+            std::cerr << "After running test case \"" << testCase << "\" - \"" << description << "\"\n";
+            std::cerr << "\tTest was too slow (previous: " << previous.count() << "ns, current: " << nseconds << "ns)\n";
             std::cerr << '\n';
         }
         if (verbose)
@@ -157,15 +157,14 @@ void UnitTest_c::complete(void)
         std::cout << testCase << " -> " << nseconds << "ns" << std::endl;
     }
 }
-void UnitTest_c::failure(const std::string & cond)
+void UnitTest_c::failure(const std::string & cond, const char *file, int line)
 {
     errors++;
     condition = cond;
-    if (verbose)
-        std::cerr << '\n';
 
     std::cerr << '\n';
-    std::cerr << "While running " << testCase << " (" << description << "):\n";
+    std::cerr << "While running test case \"" << testCase << "\" - \"" << description << "\"\n";
+    std::cerr << "\t(in file: " << file << ", on line: " << line << ")\n";
     std::cerr << "\tRequirement (" << condition << ") failed\n";
     std::cerr << '\n';
 }
