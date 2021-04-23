@@ -31,7 +31,7 @@ Generated files
 When the test cases are run, three files are generated: "timings.txt", 
 "results.txt" and "profile.txt".
 
-"timings.txt" lists the duration for each test case excuted. If the file does
+"timings.txt" lists the duration for each test case executed. If the file does
 not exist it is generated. If it does exist, it is read and used to compare
 with the latest test run. This helps indicate if code changes have introduced
 a performance hit.
@@ -51,9 +51,9 @@ IS_VERBOSE which returns a boolean. Calling VERBOSE_OFF makes the tests run
 quietly, only displaying errors and timing warnings. Verbose in on by default.
 
 Disabling profiling
-By default profiling is enabled. However for test cases that iterate over large
-collections making many assertions to "profile.txt" can be very large. The
-macros PROFILE_OFF and PROFILE_ON can be used to control this.
+By default, profiling is enabled. However, for test cases that iterate over
+large collections making many assertions to "profile.txt" can be very large.
+The macros PROFILE_OFF and PROFILE_ON can be used to control this.
 
 Defining test cases
 A test case is defined between the macro UNIT_TEST(func, desc) and END_TEST.
@@ -66,7 +66,7 @@ If a test case follows directly on from a previous test case and requires one
 or more test cases to have been run, NEXT_CASE(func, desc) can be used as a
 continuation of the test. This serves more as a way to split large tests into
 smaller chunks. Again 'func' is a function compatible name and 'desc' is a one
-line description and are displayed when running the tests. However 'func' 
+line description and are displayed when running the tests. However, 'func' 
 should not be called.
 
 Assertions
