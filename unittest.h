@@ -98,6 +98,8 @@ To clone this code, execute the following unix/linux commands:
 #include <string>
 #include <chrono>
 #include <unordered_map>
+#include <vector>
+#include <tuple>
 
 /**
  * @section unit test macro definitions.
@@ -108,6 +110,9 @@ To clone this code, execute the following unix/linux commands:
 #define VERBOSE_ON UnitTest_c::getInstance().setVerbose(true);
 #define VERBOSE_OFF UnitTest_c::getInstance().setVerbose(false);
 #define IS_VERBOSE (UnitTest_c::getInstance().isVerbose())
+
+#define PROFILE_ON UnitTest_c::getInstance().setProfiling(true);
+#define PROFILE_OFF UnitTest_c::getInstance().setProfiling(false);
 
 #define SET_TOLERANCE(value) UnitTest_c::getInstance().setTolerance(value);
 
@@ -122,7 +127,8 @@ To clone this code, execute the following unix/linux commands:
     UnitTest_c::getInstance().complete();\
 }
 
-#define REQUIRE(cond) if (!(cond)) UnitTest_c::getInstance().failure(#cond, __FILE__, __LINE__);
+#define REQUIRE(cond) UnitTest_c::getInstance().checking(#cond); \
+    if (!(cond)) UnitTest_c::getInstance().failure(__FILE__, __LINE__);
 
 #define RUN_TEST(func)    func();
 
@@ -145,18 +151,20 @@ private:
 
     void display(std::ostream &os) const;
 
-    static std::string fileName;
     static std::string testCase;
     static std::string description;
     static std::string condition;
     static bool update;
     static bool verbose;
+    static bool profiling;
     static size_t errors;
     static float tolerance;
 
     static std::chrono::time_point<std::chrono::steady_clock> start;
 
     static std::unordered_map<std::string, std::chrono::nanoseconds> times;
+    static std::unordered_map<std::string, size_t> errorList;
+    static std::vector<std::pair<std::string, std::string>> assertList;
 
     static bool store(void);
     static bool retrieve(void);
@@ -174,12 +182,15 @@ public:
 
     static void setVerbose(bool state = true) { verbose = state; }
     static bool isVerbose(void) { return verbose; }
+    static void setProfiling(bool state = true) { profiling = state; }
+    static bool isProfiling(void) { return profiling; }
     static void setTolerance(float value) { tolerance = value; }
     static void progress(const std::string & test, const std::string & desc);
     static void complete(void);
-    static void failure(const std::string & cond, const char *file, int line);
+    static void checking(const std::string & cond);
+    static void failure(const char *file, int line);
     static int getErrorCount(void) { return errors; }
-    static int finished(void) { if (update) store(); return errors; }
+    static int finished(void);
 
 
 };

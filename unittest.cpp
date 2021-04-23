@@ -26,18 +26,25 @@
 
 #include "unittest.h"
 
-std::string UnitTest_c::fileName = "timings.txt";
+const std::string timingsFileName = "timings.txt";
+const std::string profileFileName = "profile.txt";
+const std::string resultsFileName = "results.txt";
+const std::string logTestText = "logTest";
+
 std::string UnitTest_c::testCase = "UNDEFINED";
 std::string UnitTest_c::description = "UNDEFINED";
 std::string UnitTest_c::condition = "UNDEFINED";
 bool UnitTest_c::update = false;
 bool UnitTest_c::verbose = true;
+bool UnitTest_c::profiling = true;
 size_t UnitTest_c::errors = 0;
 float UnitTest_c::tolerance = 0.25f;
 
 std::chrono::time_point<std::chrono::steady_clock> UnitTest_c::start;
 
 std::unordered_map<std::string, std::chrono::nanoseconds> UnitTest_c::times;
+std::unordered_map<std::string, size_t> UnitTest_c::errorList;
+std::vector<std::pair<std::string, std::string>> UnitTest_c::assertList;
 
 /**
  * Send the current name-value pairs to the output stream.
@@ -59,6 +66,9 @@ void UnitTest_c::progress(const std::string & test, const std::string & desc)
     testCase = test;
     description = desc;
 
+    errorList[testCase] = 0;
+    assertList.push_back({testCase, logTestText});
+
     if (verbose)
     {
         std::cout << testCase << " - " << description << '\n';
@@ -68,22 +78,24 @@ void UnitTest_c::progress(const std::string & test, const std::string & desc)
 
 bool UnitTest_c::store(void)
 {
-    std::ofstream outfile(fileName, std::ifstream::out);
-    if (!outfile.is_open())
-        return false;
-
-    for (auto & it : times)
+    if (std::ofstream os{timingsFileName, std::ios::out})
     {
-        outfile << it.second.count() << ' ' << it.first << '\n';
+        std::cout << "Generating test timings in text file " << timingsFileName << "\n";
+
+        // Output in assertList order.
+        for (auto & [testCase, condition] : assertList)
+        {
+            if (condition.compare(logTestText) == 0)
+                os << times[testCase].count() << ' ' << testCase << '\n';
+        }
     }
-    outfile.close();
 
     return true;
 }
 
 bool UnitTest_c::retrieve(void)
 {
-    std::ifstream infile(fileName, std::ifstream::in);
+    std::ifstream infile(timingsFileName, std::ifstream::in);
     if (!infile.is_open())
         return false;
 
@@ -161,15 +173,54 @@ void UnitTest_c::complete(void)
         }
     }
 }
-void UnitTest_c::failure(const std::string & cond, const char *file, int line)
+void UnitTest_c::checking(const std::string & cond)
+{
+    condition = cond;
+    if (profiling)
+        assertList.push_back({testCase, condition});
+}
+void UnitTest_c::failure(const char *file, int line)
 {
     errors++;
-    condition = cond;
+    errorList[testCase]++;
 
     std::cerr << '\n';
     std::cerr << "While running test case \"" << testCase << "\" - \"" << description << "\"\n";
     std::cerr << "\t(in file: " << file << ", on line: " << line << ")\n";
     std::cerr << "\tRequirement (" << condition << ") failed\n";
     std::cerr << '\n';
+}
+
+int UnitTest_c::finished(void)
+{
+    if (update)
+        store();
+
+    if (std::ofstream os{profileFileName, std::ios::out})
+    {
+        std::cout << "Generating test profile in text file " << profileFileName << "\n";
+
+        for (auto & [testCase, condition] : assertList)
+        {
+            if (condition.compare(logTestText) == 0)
+                os << testCase << '\n';
+            else
+                os << "  " << condition << '\n';
+        }
+    }
+
+    if (std::ofstream os{resultsFileName, std::ios::out})
+    {
+        std::cout << "Generating test results in text file " << resultsFileName << "\n";
+
+        // Output in assertList order.
+        for (auto & [testCase, condition] : assertList)
+        {
+            if (condition.compare(logTestText) == 0)
+                os << errorList[testCase] << ' ' << testCase << '\n';
+        }
+    }
+
+    return errors;
 }
 
