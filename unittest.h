@@ -27,10 +27,33 @@ confidence in code proportional to the test coverage of code. This lightweight
 implementation is intended for easy use with test code for quick confirmation
 that bugs have not been introduced.
 
+Generated files
+When the test cases are run, three files are generated: "timings.txt", 
+"results.txt" and "profile.txt".
+
+"timings.txt" lists the duration for each test case excuted. If the file does
+not exist it is generated. If it does exist, it is read and used to compare
+with the latest test run. This helps indicate if code changes have introduced
+a performance hit.
+
+"results.txt" lists the number of errors each test case has found. This file
+is generated every time the tests are run. This helps when there are a large
+number of tests with a significant percentage failing. Taking a back up of this
+file and comparing it to the latest shows the scope of any changes.
+
+"profile.txt" lists the assertions made by each test case. This file is
+generated every time the tests are run.
+
 Test progress display
 The macros VERBOSE_ON and VERBOSE_OFF control whether output is displayed as
 the tests are performed. The verbose state can be tested using the macro
-IS_VERBOSE which returns a boolean.
+IS_VERBOSE which returns a boolean. Calling VERBOSE_OFF makes the tests run
+quietly, only displaying errors and timing warnings. Verbose in on by default.
+
+Disabling profiling
+By default profiling is enabled. However for test cases that iterate over large
+collections making many assertions to "profile.txt" can be very large. The
+macros PROFILE_OFF and PROFILE_ON can be used to control this.
 
 Defining test cases
 A test case is defined between the macro UNIT_TEST(func, desc) and END_TEST.
