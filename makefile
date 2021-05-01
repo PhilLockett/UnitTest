@@ -12,5 +12,10 @@ test:	$(objects)	$(headers)
 %.o:	%.cpp	$(headers)
 	g++ $(options) -c -o $@ $<
 
+format:
+	tfc -s -u -r test.cpp
+	tfc -s -u -r unittest.cpp
+	tfc -s -u -r unittest.h
+
 clean:
 	rm -f *.exe *.o
