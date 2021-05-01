@@ -19,35 +19,36 @@ a performance hit.
 "results.txt" lists the number of errors each test case has found. This file
 is generated every time the tests are run. This helps when there are a large
 number of tests with a significant percentage failing. Taking a back up of this
-file and comparing it to the latest shows the scope of any changes.
+file and comparing it to the latest shows the scope of any improvements.
 
 "profile.txt" lists the assertions made by each test case. This file is
 generated every time the tests are run.
 
 ### Test progress display
-The macros VERBOSE_ON and VERBOSE_OFF control whether output is displayed as
-the tests are performed. The verbose state can be tested using the macro
-IS_VERBOSE which returns a boolean. Calling VERBOSE_OFF makes the tests run
-quietly, only displaying errors and timing warnings. Verbose in on by default.
+The macros VERBOSE_ON and VERBOSE_OFF control whether output is displayed by
+UnitTest as the tests are performed. The verbose state can be checked using
+the macro IS_VERBOSE, which returns a boolean. Calling VERBOSE_OFF makes the
+tests run quietly, only displaying errors and timing warnings. Verbose is on
+by default.
 
 ### Disabling profiling
-By default, profiling is enabled. However, for test cases that iterate over
-large collections making many assertions to "profile.txt" can be very large.
-The macros PROFILE_OFF and PROFILE_ON can be used to control this.
+By default, profiling is enabled. However, for test cases that make many
+assertions, "profile.txt" can become very large. The macros PROFILE_OFF and
+PROFILE_ON can be used to control this.
 
 ### Defining test cases
-A test case is defined between the macro UNIT_TEST(func, desc) and END_TEST.
-The parameter 'func' is a function compatible name for the test case and is
-used (by RUN_TEST) to call the test case. The parameter 'desc' is a one line
-description of the test case. Both 'func' and 'desc' are displayed when
+A test case is defined between the macro UNIT_TEST(func, desc) and the macro
+END_TEST. The parameter 'func' is a function compatible name for the test case
+and is used (by RUN_TEST) to call the test case. The parameter 'desc' is a one
+line description of the test case. Both 'func' and 'desc' are displayed when
 running the tests if IS_VERBOSE is true.
 
-If a test case follows directly on from a previous test case and requires one
+If a test case is directly dependent on a previous test case and requires one
 or more test cases to have been run, NEXT_CASE(func, desc) can be used as a
 continuation of the test. This serves more as a way to split large tests into
 smaller chunks. Again 'func' is a function compatible name and 'desc' is a one
 line description and are displayed when running the tests. However, 'func' 
-should not be called.
+should not be called by the RUN_TEST macro or directly.
 
 ### Assertions
 The macro REQUIRE(cond) is the whole point of this. The parameter 'cond' is
@@ -59,13 +60,13 @@ will be displayed and the error count will be incremented.
 ### Running test cases
 To run the test cases use the RUN_TEST(func) macro on all 'func's defined by
 the UNIT_TEST macro only. Do not try to run the 'func's defined by the 
-NEXT_CASE macros as this will cause a compile error.
+NEXT_CASE macros as this will cause a compilation error.
 
 ### Error count
-The current error count can be obtained with the ERROR_COUNT macro.
+The current error count can be obtained at any time with the ERROR_COUNT macro.
 
 ### Test completion
-Once all tests have been run the FINISHED macro should be called, which also
+Once all tests have been run, the FINISHED macro should be called, which also
 returns the error count. The error count is the number of failed assertions 
 which should be 0, if not an error has been introduced.
 
@@ -97,10 +98,11 @@ To clone, build and run this code, execute the following unix/linux commands:
     make
     ./test
 
-This should (intentionally) create 1 error, since this code tests that error 
-conditions are caught. However, typically, all test should pass. 
+This test code (test.cpp) should (intentionally) create 1 error, since this
+code tests that error conditions are caught. However, typically, all test
+should pass and ERROR_COUNT should be 0.
 
-The files inittest.cpp and inittest.h can be used along with unit test code.
+The files unittest.cpp and unittest.h can be used along with unit test code.
 
 ## Points of interest
 This code has the following points of interest:
