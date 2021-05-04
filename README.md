@@ -19,7 +19,8 @@ a performance hit.
 "results.txt" lists the number of errors each test case has found. This file
 is generated every time the tests are run. This helps when there are a large
 number of tests with a significant percentage failing. Taking a back up of this
-file and comparing it to the latest shows the scope of any improvements.
+file and comparing it to the latest shows the scope of any improvements. May be
+useful for Test Driven Design/Developement.
 
 "profile.txt" lists the assertions made by each test case. This file is
 generated every time the tests are run.
