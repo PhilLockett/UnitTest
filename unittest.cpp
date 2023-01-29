@@ -26,25 +26,25 @@
 
 #include "unittest.h"
 
-const std::string timingsFileName = "timings.txt";
-const std::string profileFileName = "profile.txt";
-const std::string resultsFileName = "results.txt";
-const std::string logTestText = "logTest";
+const std::string timingsFileName{"timings.txt"};
+const std::string profileFileName{"profile.txt"};
+const std::string resultsFileName{"results.txt"};
+const std::string logTestText{"logTest"};
 
-std::string UnitTest_c::testCase = "UNDEFINED";
-std::string UnitTest_c::description = "UNDEFINED";
-std::string UnitTest_c::condition = "UNDEFINED";
-bool UnitTest_c::update = false;
-bool UnitTest_c::verbose = true;
-bool UnitTest_c::profiling = true;
-size_t UnitTest_c::errors = 0;
-float UnitTest_c::tolerance = 0.25f;
+std::string UnitTest_c::testCase{"UNDEFINED"};
+std::string UnitTest_c::description{"UNDEFINED"};
+std::string UnitTest_c::condition{"UNDEFINED"};
+bool UnitTest_c::update{};
+bool UnitTest_c::verbose{true};
+bool UnitTest_c::profiling{true};
+size_t UnitTest_c::errors{};
+float UnitTest_c::tolerance{0.25f};
 
-std::chrono::time_point<std::chrono::steady_clock> UnitTest_c::start;
+std::chrono::time_point<std::chrono::steady_clock> UnitTest_c::start{};
 
-std::unordered_map<std::string, std::chrono::nanoseconds> UnitTest_c::times;
-std::unordered_map<std::string, size_t> UnitTest_c::errorList;
-std::vector<std::pair<std::string, std::string>> UnitTest_c::assertList;
+std::unordered_map<std::string, std::chrono::nanoseconds> UnitTest_c::times{};
+std::unordered_map<std::string, size_t> UnitTest_c::errorList{};
+std::vector<std::pair<std::string, std::string>> UnitTest_c::assertList{};
 
 /**
  * Send the current name-value pairs to the output stream.
