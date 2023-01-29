@@ -67,7 +67,7 @@ void UnitTest_c::progress(const std::string & test, const std::string & desc)
     description = desc;
 
     errorList[testCase] = 0;
-    assertList.push_back({testCase, logTestText});
+    assertList.emplace_back(testCase, logTestText);
 
     if (verbose)
     {
