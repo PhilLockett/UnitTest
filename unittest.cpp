@@ -46,6 +46,7 @@ std::unordered_map<std::string, std::chrono::nanoseconds> UnitTest_c::times{};
 std::unordered_map<std::string, size_t> UnitTest_c::errorList{};
 std::vector<std::pair<std::string, std::string>> UnitTest_c::assertList{};
 
+
 /**
  * Send the current name-value pairs to the output stream.
  *
@@ -70,9 +71,8 @@ void UnitTest_c::progress(const std::string & test, const std::string & desc)
     assertList.emplace_back(testCase, logTestText);
 
     if (verbose)
-    {
         std::cout << testCase << " - " << description << '\n';
-    }
+
     start = std::chrono::steady_clock::now();
 }
 
@@ -84,10 +84,8 @@ bool UnitTest_c::store(void)
 
         // Output in assertList order.
         for (auto & [testCase, condition] : assertList)
-        {
             if (condition.compare(logTestText) == 0)
                 os << times[testCase].count() << ' ' << testCase << '\n';
-        }
     }
 
     return true;
@@ -103,10 +101,8 @@ bool UnitTest_c::retrieve(void)
     std::string func;
 
     while (infile >> time >> func)
-    {
         if (!infile.eof() && func.length())
             setTime(func, std::chrono::nanoseconds{time});
-    }
 
     infile.close();
 
@@ -116,9 +112,7 @@ std::chrono::nanoseconds UnitTest_c::getTime(const std::string & key)
 {
     auto it = times.find(key);
     if (it == times.end())
-    {
         return std::chrono::nanoseconds{0};
-    }
 
     return it->second;
 }
@@ -146,9 +140,7 @@ void UnitTest_c::complete(void)
     {
         update = true;
         if (verbose)
-        {
             std::cout << testCase << " -> " << nseconds << "ns\n";
-        }
     }
     else
     {
