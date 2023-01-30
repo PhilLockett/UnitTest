@@ -216,3 +216,14 @@ int UnitTest_c::finished(void)
     return errors;
 }
 
+int UnitTest_c::summary(void)
+{
+    std::cout << "\nTest Result Summary\n";
+
+    if (errors)
+        std::cerr << "\n" << errors << " ERROR(S) encountered!.\n";
+    else
+        std::cout << "\nAll tests passed.\n";
+
+    return errors;
+}

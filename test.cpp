@@ -114,10 +114,7 @@ int runTests(void)
     RUN_TEST(test8)
 
     const int err = FINISHED;
-    if (err)
-        std::cerr << err << " ERROR(S) encountered!.\n";
-    else
-        std::cout << "All tests passed.\n";
+    OUTPUT_SUMMARY;
 
     std::cout << "\nNote: we force an error in Test4 to get the fail case, so error count should be 1.\n\n";
 

@@ -159,6 +159,8 @@ To clone this code, execute the following unix/linux commands:
 
 #define FINISHED UnitTest_c::getInstance().finished()
 
+#define OUTPUT_SUMMARY UnitTest_c::getInstance().summary()
+
 /**
  * @section unit test context data.
  *
@@ -214,6 +216,7 @@ public:
     static void failure(const char *file, int line);
     static int getErrorCount(void) { return errors; }
     static int finished(void);
+    static int summary(void);
 
 
 };
