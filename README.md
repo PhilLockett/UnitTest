@@ -40,28 +40,28 @@ PROFILE_ON can be used to control this.
 
 ### Defining test cases
 A test case is defined between the macro UNIT_TEST(func, desc) and the macro
-END_TEST. The parameter 'func' is a function compatible name for the test case
-and is used (by RUN_TEST) to call the test case. The parameter 'desc' is a one
-line description of the test case. Both 'func' and 'desc' are displayed when
+END_TEST. The parameter `func` is a function compatible name for the test case
+and is used (by RUN_TEST) to call the test case. The parameter `desc` is a one
+line description of the test case. Both `func` and `desc` are displayed when
 running the tests if IS_VERBOSE is true.
 
 If a test case is directly dependent on a previous test case and requires one
 or more test cases to have been run, NEXT_CASE(func, desc) can be used as a
 continuation of the test. This serves more as a way to split large tests into
-smaller chunks. Again 'func' is a function compatible name and 'desc' is a one
-line description and are displayed when running the tests. However, 'func' 
+smaller chunks. Again `func` is a function compatible name and `desc` is a one
+line description and are displayed when running the tests. However, `func` 
 should not be called by the RUN_TEST macro or directly.
 
 ### Assertions
-The macro REQUIRE(cond) is the whole point of this. The parameter 'cond' is
+The macro REQUIRE(cond) is the whole point of this. The parameter `cond` is
 a compilable condition that must be met by the test. Within each unit test
 case, code under test should be executed then all appropriate conditions 
 should be tested for. If the condition does not return true, an error message
 will be displayed and the error count will be incremented.
 
 ### Running test cases
-To run the test cases use the RUN_TEST(func) macro on all 'func's defined by
-the UNIT_TEST macro only. Do not try to run the 'func's defined by the 
+To run the test cases use the RUN_TEST(func) macro on all `func`s defined by
+the UNIT_TEST macro only. Do not try to run the `func`s defined by the 
 NEXT_CASE macros as this will cause a compilation error.
 
 ### Error count
@@ -85,14 +85,14 @@ error. Deleting "timings.txt" will cause this file to be regenerated when the
 tests are next run.
 
 The default 25% tolerance can be adjusted by calling the SET_TOLERANCE(value)
-macro. The 'value' parameter is specified as a decimal, so for example, an
+macro. The `value` parameter is specified as a decimal, so for example, an
 acceptable deviation of 25% would be set by calling SET_TOLERANCE(0.25).
 
 Time checking can be disabled by setting the tolerance to 0.0.
 
-Also note that any change to the test names, i.e. the value of 'func' used in
+Also note that any change to the test names, i.e. the value of `func` used in
 the call to UNIT_TEST, "timings.txt" will need to be deleted so that the
-timings for the new 'func' names can be calculated.
+timings for the new `func` names can be calculated.
 
 **If precise timing is required, performance tools should be used.**
 
