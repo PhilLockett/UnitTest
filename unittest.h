@@ -188,6 +188,7 @@ private:
     static std::chrono::time_point<std::chrono::steady_clock> start;
 
     static std::unordered_map<std::string, std::chrono::nanoseconds> times;
+    static std::unordered_map<std::string, size_t> counts;
     static std::unordered_map<std::string, size_t> errorList;
     static std::vector<std::pair<std::string, std::string>> assertList;
 
@@ -195,6 +196,7 @@ private:
     static bool retrieve(void);
     static std::chrono::nanoseconds getTime(const std::string & key);
     static bool setTime(const std::string & key, std::chrono::nanoseconds value);
+    static bool setCount(const std::string & key, size_t count);
 
 public:
 //- Delete the copy constructor and assignement operator.

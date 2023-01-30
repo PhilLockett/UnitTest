@@ -43,6 +43,7 @@ float UnitTest_c::tolerance{0.25f};
 std::chrono::time_point<std::chrono::steady_clock> UnitTest_c::start{};
 
 std::unordered_map<std::string, std::chrono::nanoseconds> UnitTest_c::times{};
+std::unordered_map<std::string, size_t> UnitTest_c::counts{};
 std::unordered_map<std::string, size_t> UnitTest_c::errorList{};
 std::vector<std::pair<std::string, std::string>> UnitTest_c::assertList{};
 
@@ -106,6 +107,17 @@ bool UnitTest_c::retrieve(void)
 
     infile.close();
 
+    infile.open(resultsFileName, std::ifstream::in);
+    if (!infile.is_open())
+        return false;
+
+    size_t count;
+
+    while (infile >> count >> func)
+        if (!infile.eof() && func.length())
+            setCount(func, count);
+
+    infile.close();
     return true;
 }
 std::chrono::nanoseconds UnitTest_c::getTime(const std::string & key)
@@ -122,6 +134,18 @@ bool UnitTest_c::setTime(const std::string & key, std::chrono::nanoseconds value
     if (it == times.end())
     {
         times[key] = value;
+        return true;
+    }
+
+//    it->second = value;
+    return false;
+}
+bool UnitTest_c::setCount(const std::string & key, size_t count)
+{
+    auto it = counts.find(key);
+    if (it == counts.end())
+    {
+        counts[key] = count;
         return true;
     }
 
@@ -209,7 +233,7 @@ int UnitTest_c::finished(void)
         for (auto & [testCase, condition] : assertList)
         {
             if (condition.compare(logTestText) == 0)
-                os << errorList[testCase] << ' ' << testCase << '\n';
+                os << errorList[testCase] << " " << testCase << "\n";
         }
     }
 
@@ -219,6 +243,37 @@ int UnitTest_c::finished(void)
 int UnitTest_c::summary(void)
 {
     std::cout << "\nTest Result Summary\n";
+
+    bool better{};
+    bool worse{};
+    for (auto & [testCase, count] : errorList)
+    {
+        if (count > counts[testCase])
+            worse = true;
+        else
+        if (count < counts[testCase])
+            better = true;
+    }
+
+    if (worse)
+    {
+        std::cerr << "\nThe following test cases are worse than in the previous test run:\n";
+
+        for (auto & [testCase, condition] : assertList)
+            if (condition.compare(logTestText) == 0)
+                if (errorList[testCase] > counts[testCase])
+                    std::cerr << "  " << testCase << "\n";
+    }
+
+    if (better)
+    {
+        std::cout << "\nThe following test cases are better than in the previous test run:\n";
+
+        for (auto & [testCase, condition] : assertList)
+            if (condition.compare(logTestText) == 0)
+                if (errorList[testCase] < counts[testCase])
+                    std::cout << " " << testCase << "\n";
+    }
 
     if (errors)
         std::cerr << "\n" << errors << " ERROR(S) encountered!.\n";
