@@ -220,7 +220,6 @@ public:
     static int finished(void);
     static int summary(void);
 
-
 };
 
 #endif // !defined(_UNITTEST_H__20210324_0940__INCLUDED_)

@@ -118,8 +118,10 @@ bool UnitTest_c::retrieve(void)
             setCount(func, count);
 
     infile.close();
+
     return true;
 }
+
 std::chrono::nanoseconds UnitTest_c::getTime(const std::string & key)
 {
     auto it = times.find(key);
@@ -128,6 +130,7 @@ std::chrono::nanoseconds UnitTest_c::getTime(const std::string & key)
 
     return it->second;
 }
+
 bool UnitTest_c::setTime(const std::string & key, std::chrono::nanoseconds value)
 {
     auto it = times.find(key);
@@ -140,6 +143,7 @@ bool UnitTest_c::setTime(const std::string & key, std::chrono::nanoseconds value
 //    it->second = value;
     return false;
 }
+
 bool UnitTest_c::setCount(const std::string & key, size_t count)
 {
     auto it = counts.find(key);
@@ -152,6 +156,7 @@ bool UnitTest_c::setCount(const std::string & key, size_t count)
 //    it->second = value;
     return false;
 }
+
 void UnitTest_c::complete(void)
 {
     if (tolerance <= 0.0f)
@@ -189,12 +194,14 @@ void UnitTest_c::complete(void)
         }
     }
 }
+
 void UnitTest_c::checking(const std::string & cond)
 {
     condition = cond;
     if (profiling)
         assertList.push_back({testCase, condition});
 }
+
 void UnitTest_c::failure(const char *file, int line)
 {
     errors++;
