@@ -36,10 +36,12 @@ not exist it is generated. If it does exist, it is read and used to compare
 with the latest test run. This helps indicate if code changes have introduced
 a performance hit.
 
-"results.txt" lists the number of errors each test case has found. This file
-is generated every time the tests are run. This helps when there are a large
-number of tests with a significant percentage failing. Taking a back up of this
-file and comparing it to the latest shows the scope of any changes.
+"results.txt" lists the number of errors each test case has found. This file is
+read on start up and is generated with the latest results every time the tests
+are run. If OUTPUT_SUMMARY is selected, the previous and latest results are
+compared and any changes are displayed indicating whether any test cases have
+better or worse results. This helps when there are a large number of tests with
+a significant percentage failing. This is useful for Test Driven Developement.
 
 "profile.txt" lists the assertions made by each test case. This file is
 generated every time the tests are run.
@@ -85,11 +87,15 @@ Error count
 The current error count can be obtained with the ERROR_COUNT macro.
 
 Test completion
-Once all tests have been run the FINISHED macro should be called, which also
-returns the error count. The error count is the number of failed assertions 
-which should be 0, if not an error has been introduced.
+Once all tests have been run, the FINISHED macro must be called. FINISHED also
+returns the error count, which is the number of failed assertions. The error
+count should be 0, if not, an error has been introduced.
 
-Note
+Calling OUTPUT_SUMMARY displays any progress by comparing the previous and 
+latest results and indicating whether any test cases now have better or worse
+results as well as displaying the error count.
+
+Note on timings
 The timings displayed are a rough indication to whether performance has been
 adversely affected by a code change. The code uses the file "timings.txt" to
 track previous test case timings. If the duration of a test case has increased
