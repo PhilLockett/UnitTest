@@ -107,7 +107,9 @@ The default 25% tolerance can be adjusted by calling the SET_TOLERANCE(value)
 macro. The 'value' parameter is specified as a decimal, so for example, an
 acceptable deviation of 25% would be set by calling SET_TOLERANCE(0.25).
 
-Time checking can be disabled by setting the tolerance to 0.0.
+Time checking can be disabled with the macro TIMINGS_OFF or by setting the
+tolerance to 0.0. Time checking can be enabled with the macro TIMINGS_ON or by
+setting the tolerance to a positive non zero value.
 
 Also note that any change to the test names, i.e. the value of 'func' used in
 the call to UNIT_TEST, "timings.txt" will need to be deleted so that the
@@ -143,7 +145,11 @@ To clone this code, execute the following unix/linux commands:
 #define PROFILE_ON UnitTest_c::getInstance().setProfiling(true);
 #define PROFILE_OFF UnitTest_c::getInstance().setProfiling(false);
 
+#define DEFAULT_TOLERANCE (0.25f)
 #define SET_TOLERANCE(value) UnitTest_c::getInstance().setTolerance(value);
+
+#define TIMINGS_OFF     SET_TOLERANCE(0.0)
+#define TIMINGS_ON      SET_TOLERANCE(DEFAULT_TOLERANCE)
 
 #define UNIT_TEST(func, desc) void func(void) {\
     UnitTest_c::getInstance().progress(#func, desc);
@@ -165,7 +171,7 @@ To clone this code, execute the following unix/linux commands:
 
 #define FINISHED UnitTest_c::getInstance().finished()
 
-#define OUTPUT_SUMMARY UnitTest_c::getInstance().summary()
+#define OUTPUT_SUMMARY UnitTest_c::getInstance().summary();
 
 /**
  * @section unit test context data.

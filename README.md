@@ -88,7 +88,9 @@ The default 25% tolerance can be adjusted by calling the SET_TOLERANCE(value)
 macro. The `value` parameter is specified as a decimal, so for example, an
 acceptable deviation of 25% would be set by calling SET_TOLERANCE(0.25).
 
-Time checking can be disabled by setting the tolerance to 0.0.
+Time checking can be disabled with the macro TIMINGS_OFF or by setting the
+tolerance to 0.0. Time checking can be enabled with the macro TIMINGS_ON or by
+setting the tolerance to a positive non zero value.
 
 Also note that any change to the test names, i.e. the value of `func` used in
 the call to UNIT_TEST, "timings.txt" will need to be deleted so that the

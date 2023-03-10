@@ -38,7 +38,7 @@ bool UnitTest_c::update{};
 bool UnitTest_c::verbose{true};
 bool UnitTest_c::profiling{true};
 size_t UnitTest_c::errors{};
-float UnitTest_c::tolerance{0.25f};
+float UnitTest_c::tolerance{DEFAULT_TOLERANCE};
 
 std::chrono::time_point<std::chrono::steady_clock> UnitTest_c::start{};
 
