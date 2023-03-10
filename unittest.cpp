@@ -94,32 +94,43 @@ bool UnitTest_c::store(void)
 
 bool UnitTest_c::retrieve(void)
 {
+    bool success{true};
+
     std::ifstream infile(timingsFileName, std::ifstream::in);
     if (!infile.is_open())
-        return false;
+    {
+        success = false;
+    }
+    else
+    {
+        int64_t time{};
+        std::string func{};
 
-    int64_t time;
-    std::string func;
+        while (infile >> time >> func)
+            if (!infile.eof() && func.length())
+                setTime(func, std::chrono::nanoseconds{time});
 
-    while (infile >> time >> func)
-        if (!infile.eof() && func.length())
-            setTime(func, std::chrono::nanoseconds{time});
-
-    infile.close();
+        infile.close();
+    }
 
     infile.open(resultsFileName, std::ifstream::in);
     if (!infile.is_open())
-        return false;
+    {
+        success = false;
+    }
+    else
+    {
+        size_t count{};
+        std::string func{};
 
-    size_t count;
+        while (infile >> count >> func)
+            if (!infile.eof() && func.length())
+                setCount(func, count);
 
-    while (infile >> count >> func)
-        if (!infile.eof() && func.length())
-            setCount(func, count);
+        infile.close();
+    }
 
-    infile.close();
-
-    return true;
+    return success;
 }
 
 std::chrono::nanoseconds UnitTest_c::getTime(const std::string & key)
