@@ -251,41 +251,40 @@ int UnitTest_c::summary(void)
 {
     std::cout << "\nTest Result Summary\n";
 
-    bool better{};
-    bool worse{};
-    for (auto & [testCase, count] : errorList)
-    {
-        if (count > counts[testCase])
-            worse = true;
-        else
-        if (count < counts[testCase])
-            better = true;
-    }
-
-    if (worse)
-    {
-        std::cerr << "\nThe following test cases are worse than in the previous test run:\n";
-
-        for (auto & [testCase, condition] : assertList)
-            if (condition.compare(logTestText) == 0)
-                if (errorList[testCase] > counts[testCase])
-                    std::cerr << "  " << testCase << "\n";
-    }
-
-    if (better)
-    {
-        std::cout << "\nThe following test cases are better than in the previous test run:\n";
-
-        for (auto & [testCase, condition] : assertList)
-            if (condition.compare(logTestText) == 0)
-                if (errorList[testCase] < counts[testCase])
-                    std::cout << " " << testCase << "\n";
-    }
-
     if (errors)
-        std::cerr << "\n" << errors << " ERROR(S) encountered!.\n";
+    {
+        std::cerr << "\nThe following test cases fail:\n";
+
+        for (auto & [testCase, condition] : assertList)
+        {
+            if ((condition.compare(logTestText) == 0) && (errorList[testCase]))
+            {
+                std::cerr << "  " << testCase;
+
+                std::cerr << "  [" << counts[testCase];
+                if (errorList[testCase] != counts[testCase])
+                    std::cerr << " -> " << errorList[testCase];
+                std::cerr << "]";
+
+                if (errorList[testCase] > counts[testCase])
+                    std::cerr << " - WORSE than previous test run!";
+                else
+                if (errorList[testCase] < counts[testCase])
+                    std::cerr << " - BETTER than previous test run.";
+
+                std::cerr << "\n";
+            }
+        }
+
+        std::cerr << "\n" << errors << " ERROR";
+        if (errors != 1)
+            std::cerr << "S";
+        std::cerr << " encountered!\n";
+    }
     else
+    {
         std::cout << "\nAll tests passed.\n";
+    }
 
     return errors;
 }
