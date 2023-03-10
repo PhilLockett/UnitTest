@@ -60,8 +60,9 @@ END_TEST
 /**
  * @section single test case.
  */
-static const int SOMEVALUE = 10;
+static const int SOMEVALUE{10};
 int getSomeValue(void) { return SOMEVALUE; }
+int dummyValues[] { 0, 1, 2, 3, 4, 5, 6 };
 
 UNIT_TEST(test3, "Test REQUIRE macro - test should pass.")
     // Test "pass" case.
@@ -84,14 +85,14 @@ END_TEST
 
 UNIT_TEST(test6, "Test disabling timing by setting tolerance to zero.")
 
-    SET_TOLERANCE(0.0)
+    TIMINGS_OFF
     REQUIRE(getSomeValue() == SOMEVALUE)
 
 END_TEST
 
 UNIT_TEST(test7, "Test enabling timing by setting tolerance back to non-zero.")
 
-    SET_TOLERANCE(0.25)
+    TIMINGS_ON
     REQUIRE(getSomeValue() == SOMEVALUE)
 
 END_TEST
@@ -99,6 +100,25 @@ END_TEST
 UNIT_TEST(test8, "Test displaying test case state.")
 
     std::cout << UnitTest_c::getInstance();
+
+END_TEST
+
+UNIT_TEST(test9, "Dummy Test 1 affected by argv[1].")
+
+    TIMINGS_OFF
+    REQUIRE(dummyValues[1] == 1)
+    REQUIRE(dummyValues[2] == 2)
+
+NEXT_CASE(test10, "Dummy Test 1 affected by argv[2].")
+
+    REQUIRE(dummyValues[2] == 2)
+    REQUIRE(dummyValues[3] == 3)
+
+END_TEST
+
+UNIT_TEST(test11, "Dummy Test 2 affected by argv[3].")
+
+    REQUIRE(dummyValues[3] == 3)
 
 END_TEST
 
@@ -112,7 +132,10 @@ int runTests(void)
     RUN_TEST(test6)
     RUN_TEST(test7)
     RUN_TEST(test8)
+    RUN_TEST(test9)
+    RUN_TEST(test11)
 
+    std::cout << "\n";
     const int err = FINISHED;
     OUTPUT_SUMMARY;
 
@@ -130,6 +153,9 @@ int runTests(void)
  */
 int main(int argc, char *argv[])
 {
+    for (int a{1}; a < argc; ++a)
+        dummyValues[a] = atoi(argv[a]);
+
     return (runTests()==1 ? 0 : 1);
 }
 
