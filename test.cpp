@@ -26,6 +26,9 @@
  *    g++ -std=c++20 -o test test.o unittest.o
  *
  * Test using:
+ *    ./test 6 6 6
+ *    ./test 6 6
+ *    ./test 6
  *    ./test
  *
  *  Should generate 1 error.
