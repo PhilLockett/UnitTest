@@ -219,6 +219,8 @@ int UnitTest_c::finished(void)
     if (update)
         store();
 
+    std::cout << "\nTesting complete.\n";
+
     if (std::ofstream os{profileFileName, std::ios::out})
     {
         std::cout << "Generating test profile in text file " << profileFileName << "\n";

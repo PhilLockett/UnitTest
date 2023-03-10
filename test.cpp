@@ -135,8 +135,7 @@ int runTests(void)
     RUN_TEST(test9)
     RUN_TEST(test11)
 
-    std::cout << "\n";
-    const int err = FINISHED;
+    const int err{FINISHED};
     OUTPUT_SUMMARY;
 
     std::cout << "\nNote: we force an error in Test4 to get the fail case, so error count should be 1.\n\n";
