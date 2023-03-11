@@ -104,22 +104,26 @@ UNIT_TEST(test8, "Test displaying test case state.")
 
     std::cout << UnitTest_c::getInstance();
 
-END_TEST
-
-UNIT_TEST(test9, "Dummy Test 1 affected by argv[1].")
+NEXT_CASE(test9, "Test displaying test case state with timings disabled.")
 
     TIMINGS_OFF
+    std::cout << UnitTest_c::getInstance();
+
+END_TEST
+
+UNIT_TEST(test10, "Dummy Test 1 affected by argv[1].")
+
     REQUIRE(dummyValues[1] == 1)
     REQUIRE(dummyValues[2] == 2)
 
-NEXT_CASE(test10, "Dummy Test 1 affected by argv[2].")
+NEXT_CASE(test11, "Dummy Test 1 affected by argv[2].")
 
     REQUIRE(dummyValues[2] == 2)
     REQUIRE(dummyValues[3] == 3)
 
 END_TEST
 
-UNIT_TEST(test11, "Dummy Test 2 affected by argv[3].")
+UNIT_TEST(test12, "Dummy Test 2 affected by argv[3].")
 
     REQUIRE(dummyValues[3] == 3)
 
@@ -135,8 +139,8 @@ int runTests(void)
     RUN_TEST(test6)
     RUN_TEST(test7)
     RUN_TEST(test8)
-    RUN_TEST(test9)
-    RUN_TEST(test11)
+    RUN_TEST(test10)
+    RUN_TEST(test12)
 
     const int err{FINISHED};
     OUTPUT_SUMMARY;
