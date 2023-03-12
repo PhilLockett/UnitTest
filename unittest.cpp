@@ -266,7 +266,10 @@ int UnitTest_c::summary(void)
 
     if (errors)
     {
-        std::cerr << "\nThe following test cases fail:\n";
+        if (errors == 1)
+            std::cerr << "\nThe following test case fails:\n";
+        else
+            std::cerr << "\nThe following test cases fail:\n";
 
         for (auto & [testCase, condition] : assertList)
         {
