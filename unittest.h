@@ -162,8 +162,8 @@ To clone this code, execute the following unix/linux commands:
     UnitTest_c::getInstance().complete();\
 }
 
-#define REQUIRE(cond) UnitTest_c::getInstance().checking(#cond); \
-    if (!(cond)) UnitTest_c::getInstance().failure(__FILE__, __LINE__);
+#define REQUIRE(cond) { UnitTest_c::getInstance().checking(#cond); \
+    if (!(cond)) UnitTest_c::getInstance().failure(__FILE__, __LINE__); }
 
 #define RUN_TEST(func)    func();
 
